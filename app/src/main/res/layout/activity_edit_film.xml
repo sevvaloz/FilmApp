@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditFilmActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".AddFilmActivity"
+            android:orientation="vertical"
+            android:gravity="center">
+
+
+            <EditText
+                android:id="@+id/filmName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Film Name"
+                android:text=""
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:gravity="bottom">
+            </EditText>
+            <EditText
+                android:id="@+id/filmYear"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Film Year"
+                android:text=""
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:inputType="number"
+                android:gravity="bottom">
+            </EditText>
+            <EditText
+                android:id="@+id/filmDirector"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Film Director"
+                android:text=""
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:gravity="bottom">
+            </EditText>
+            <EditText
+                android:id="@+id/filmImageUrl"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Film Image"
+                android:text=""
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:gravity="bottom">
+            </EditText>
+            <EditText
+                android:id="@+id/filmSubject"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Film Subject"
+                android:text=""
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:gravity="bottom">
+            </EditText>
+            <Button
+                android:id="@+id/editFilmBtn"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:text="@string/edit"
+                android:textSize="18sp"
+                android:layout_margin="15dp">
+            </Button>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

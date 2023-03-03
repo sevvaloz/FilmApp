@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.example.films.viewmodel.FilmViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FilmDetailsActivity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context=".AddFilmActivity"
+                android:orientation="vertical"
+                android:gravity="center">
+
+
+                <TextView
+                    android:id="@+id/filmName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Film Name"
+                    android:text="@{viewmodel.name}"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:gravity="bottom">
+                </TextView>
+                <TextView
+                    android:id="@+id/filmYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Film Year"
+                    android:text="@{viewmodel.year}"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:inputType="number"
+                    android:gravity="bottom">
+                </TextView>
+                <TextView
+                    android:id="@+id/filmDirector"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Film Director"
+                    android:text="@{viewmodel.director}"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:gravity="bottom">
+                </TextView>
+                <TextView
+                    android:id="@+id/filmImageUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Film Image"
+                    android:text="@{viewmodel.image}"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:gravity="bottom">
+                </TextView>
+                <TextView
+                    android:id="@+id/filmSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:hint="Film Subject"
+                    android:text="@{viewmodel.subject}"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:gravity="bottom">
+                </TextView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>
