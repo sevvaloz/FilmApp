@@ -1,13 +1,11 @@
 package com.example.films.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.films.db.Film
 import com.example.films.db.FilmDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class FilmViewModel(): ViewModel() {
@@ -48,6 +46,11 @@ class FilmViewModel(): ViewModel() {
     fun updateFilm(film: Film) = viewModelScope.launch(Dispatchers.IO) {
         repository?.updateFilm(film)
     }
+
+     fun searchFilm(searchQuery: String): LiveData<List<Film>> {
+        return repository?.searchFilm(searchQuery) as LiveData
+    }
+
 
     fun setName(name: String){
         _name.value = name

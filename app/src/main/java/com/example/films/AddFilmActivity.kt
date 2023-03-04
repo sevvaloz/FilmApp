@@ -29,12 +29,11 @@ class AddFilmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_film)
 
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_film)
         viewmodel.init(application)
+
         listener()
     }
-
 
     fun listener(){
         binding.addFilmBtn.setOnClickListener {
@@ -43,7 +42,7 @@ class AddFilmActivity : AppCompatActivity() {
                 viewmodel.addFilm(newFilm)
 
                 val intent =  Intent(applicationContext, MainActivity::class.java)
-                intent.putExtra("FILM", newFilm)
+                //intent.putExtra("FILM", newFilm)
                 startActivity(intent)
             }
             else{
@@ -61,8 +60,6 @@ class AddFilmActivity : AppCompatActivity() {
 
         return isNullOrEmpty(nameTxt) || isNullOrEmpty(yearTxt)
     }
-
-
 
 }
 

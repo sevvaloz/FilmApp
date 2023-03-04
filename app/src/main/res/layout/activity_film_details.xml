@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewmodel"
-            type="com.example.films.viewmodel.FilmViewModel" />
+
     </data>
 
     <LinearLayout
@@ -25,13 +24,12 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-
                 <TextView
                     android:id="@+id/filmName"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Film Name"
-                    android:text="@{viewmodel.name}"
+                    android:text=""
                     android:textSize="20sp"
                     android:layout_margin="10dp"
                     android:gravity="bottom">
@@ -41,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Film Year"
-                    android:text="@{viewmodel.year}"
+                    android:text=""
                     android:textSize="20sp"
                     android:layout_margin="10dp"
                     android:inputType="number"
@@ -52,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Film Director"
-                    android:text="@{viewmodel.director}"
+                    android:text=""
                     android:textSize="20sp"
                     android:layout_margin="10dp"
                     android:gravity="bottom">
@@ -62,21 +60,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Film Image"
-                    android:text="@{viewmodel.image}"
+                    android:text=""
                     android:textSize="20sp"
                     android:layout_margin="10dp"
                     android:gravity="bottom">
                 </TextView>
-                <TextView
-                    android:id="@+id/filmSubject"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:hint="Film Subject"
-                    android:text="@{viewmodel.subject}"
-                    android:textSize="20sp"
-                    android:layout_margin="10dp"
-                    android:gravity="bottom">
-                </TextView>
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/filmSubject"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:hint="Film Subject"
+                        android:text=""
+                        android:textSize="20sp"
+                        android:layout_margin="10dp"
+                        android:gravity="bottom">
+                    </TextView>
+
+                </ScrollView>
+
 
             </LinearLayout>
 

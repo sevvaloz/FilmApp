@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.registerForActivityResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.films.adapter.FilmAdapter
@@ -18,13 +20,17 @@ import com.example.films.databinding.ActivityMainBinding
 import com.example.films.db.Film
 import com.example.films.utils.RowClickListener
 import com.example.films.viewmodel.FilmViewModel
+import kotlinx.coroutines.flow.observeOn
+import kotlinx.coroutines.job
 import java.io.Serializable
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     val viewmodel: FilmViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
+    lateinit var linearLayoutManager: LinearLayoutManager
+    lateinit var adapter: FilmAdapter
     var editActivityLauncher: ActivityResultLauncher<Intent>? = null
     var filmDetailsLauncher: ActivityResultLauncher<Intent>? = null
 
@@ -35,13 +41,18 @@ class MainActivity : AppCompatActivity() {
         viewmodel.init(application)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        linearLayoutManager = LinearLayoutManager(this)
+        binding.rw.layoutManager = linearLayoutManager
 
-        init()
+        viewmodel.allFilms?.observe(this){filmList ->
+            filmList.let {
+                adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
+                binding.rw.adapter = adapter
+            }
+        }
+
         listener()
-
     }
-
-    private fun init(){
 
         val deleteListener = object : RowClickListener<Serializable>{
             override fun onRowClick(row: Int, item: Serializable) {
@@ -68,15 +79,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewmodel.allFilms?.observe(this){filmList ->
-            filmList.let {
-                binding.rw.adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
-                binding.rw.layoutManager = LinearLayoutManager(this)
-            }
-        }
-
-    }
-
     fun listener(){
         binding.addBtn.setOnClickListener {
             val intent =  Intent(applicationContext, AddFilmActivity::class.java)
@@ -98,6 +100,41 @@ class MainActivity : AppCompatActivity() {
             .create()
         alert?.show()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        val search = menu?.findItem(R.id.menu_search)
+        val searchView = search?.actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this@MainActivity)
+
+        return true
+    }
+
+    fun searchQuery(query: String){
+        val sq = "%$query%"
+        viewmodel.searchFilm(sq).observe(this){ filmList ->
+            filmList.let{
+                adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
+                binding.rw.adapter = adapter
+            }
+        }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if(query != null){
+            searchQuery(query)
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if(query != null){
+            searchQuery(query)
+        }
+        return true
+    }
+
 }
 
 

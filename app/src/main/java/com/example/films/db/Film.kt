@@ -6,12 +6,13 @@ import androidx.room.PrimaryKey
 import com.example.films.utils.Constants.Companion.filmTable
 
 @Entity (tableName = filmTable)
-class Film(
-    @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "year") var year: String,
-    @ColumnInfo(name = "director") var director: String,
-    @ColumnInfo(name = "subject") var subject: String,
-    @ColumnInfo(name = "image") var image: String,
+data class Film(
+    var name: String,
+    var year: String,
+    var director: String,
+    var subject: String,
+    var image: String,
 ): java.io.Serializable {
-    @PrimaryKey(autoGenerate = true) var id = 0
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
 }
