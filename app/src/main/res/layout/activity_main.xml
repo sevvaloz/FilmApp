@@ -46,10 +46,33 @@
                 android:layout_margin="20dp">
             </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
+            <Button
+                android:id="@+id/up"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:background="@drawable/arrow_up"
+                android:layout_alignParentStart="true"
+                android:layout_margin="5dp"
+                />
+
+            <Button
+                android:id="@+id/down"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:background="@drawable/arrow_down"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"
+                />
+
+            <EditText
+                android:id="@+id/editext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rw"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="620dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"/>
 

@@ -1,18 +1,15 @@
 package com.example.films
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.films.adapter.FilmAdapter
@@ -20,8 +17,6 @@ import com.example.films.databinding.ActivityMainBinding
 import com.example.films.db.Film
 import com.example.films.utils.RowClickListener
 import com.example.films.viewmodel.FilmViewModel
-import kotlinx.coroutines.flow.observeOn
-import kotlinx.coroutines.job
 import java.io.Serializable
 
 
@@ -29,10 +24,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     val viewmodel: FilmViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
-    lateinit var linearLayoutManager: LinearLayoutManager
     lateinit var adapter: FilmAdapter
-    var editActivityLauncher: ActivityResultLauncher<Intent>? = null
-    var filmDetailsLauncher: ActivityResultLauncher<Intent>? = null
+    var filmlist = ArrayList<Film>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,17 +34,19 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         viewmodel.init(application)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        linearLayoutManager = LinearLayoutManager(this)
-        binding.rw.layoutManager = linearLayoutManager
+        binding.rw.layoutManager = LinearLayoutManager(this)
 
+        listener()
+        observeViewmodel()
+    }
+
+    fun observeViewmodel(){
         viewmodel.allFilms?.observe(this){filmList ->
             filmList.let {
                 adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
                 binding.rw.adapter = adapter
             }
         }
-
-        listener()
     }
 
         val deleteListener = object : RowClickListener<Serializable>{
@@ -64,7 +59,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val editListener = object : RowClickListener<Serializable>{
             override fun onRowClick(row: Int, item: Serializable) {
                 val film = item as Film
-                //editActivityLauncher?.launch(EditFilmActivity.create(this@MainActivity, film))
                 val intent = Intent(this@MainActivity, EditFilmActivity::class.java).putExtra("FILM2", film)
                 startActivity(intent)
             }
@@ -73,9 +67,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         val filmListener = object : RowClickListener<Serializable> {
             override fun onRowClick(row: Int, item: Serializable) {
                 val film = item as Film
-                //filmDetailsLauncher?.launch(FilmDetailsActivity.create(this@MainActivity, film))
-                val intent = Intent(this@MainActivity, FilmDetailsActivity::class.java).putExtra("FILM", film)
-                startActivity(intent)
+                //val intent = Intent(this@MainActivity, FilmDetailsActivity::class.java).putExtra("FILM", film)
+                //startActivity(intent)
+                FilmDetailsActivity.start(this@MainActivity, film)
             }
         }
 
@@ -84,6 +78,33 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             val intent =  Intent(applicationContext, AddFilmActivity::class.java)
             startActivity(intent)
         }
+
+        binding.up.setOnClickListener {
+            viewmodel.sortedFilmsDesc?.observe(this){filmList ->
+                filmList.let {
+                    adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
+                    binding.rw.adapter = adapter
+                }
+
+            }
+        }
+
+        binding.down.setOnClickListener {
+            viewmodel.sortedFilmsAsc?.observe(this){filmList ->
+                filmList.let {
+                    adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
+                    binding.rw.adapter = adapter
+                }
+
+            }
+        }
+
+        binding.editext.doAfterTextChanged {text ->
+            filmlist.filter { it.name.contains(text.toString()) }
+        }
+
+        //val str: String = "string"
+        //str.isname()
     }
 
     fun showDeleteMessage(context: Context, film: Film){
@@ -111,9 +132,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         return true
     }
 
+    //search film
     fun searchQuery(query: String){
         val sq = "%$query%"
-        viewmodel.searchFilm(sq).observe(this){ filmList ->
+        viewmodel.searchFilm(sq).observe(this){filmList ->
             filmList.let{
                 adapter = FilmAdapter(filmList, deleteListener, editListener, filmListener)
                 binding.rw.adapter = adapter
@@ -134,7 +156,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
         return true
     }
-
 }
 
 

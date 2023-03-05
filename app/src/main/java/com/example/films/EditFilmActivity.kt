@@ -1,9 +1,11 @@
 package com.example.films
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -14,6 +16,8 @@ import com.example.films.utils.Utility
 import com.example.films.viewmodel.FilmViewModel
 
 class EditFilmActivity : AppCompatActivity() {
+
+    //lateinit var activity: Activity
 
     private val viewmodel: FilmViewModel by viewModels()
     private lateinit var binding: ActivityEditFilmBinding
@@ -32,8 +36,12 @@ class EditFilmActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_film)
 
+        viewmodel.init(application)
+
         init()
         listener()
+
+        //activity = this
     }
 
     fun init(){
@@ -50,12 +58,20 @@ class EditFilmActivity : AppCompatActivity() {
             if(!checkEditText()){
                 val updatedFilm = Film(nameTxt, yearTxt, directorTxt, subjectTxt, imageTxt)
                 updatedFilm.id = currentFilm.id
+
+                Log.d("movieid2", updatedFilm.id.toString())
+
                 viewmodel.updateFilm(updatedFilm)
 
+                //activity.onBackPressed()
+
                 val intent =  Intent(this@EditFilmActivity, MainActivity::class.java)
-                //intent.putExtra("FILM2", updatedFilm)
+
+                //activity stack'ini sıfırlar
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
                 startActivity(intent)
-                //setResult(RESULT_OK, intent)
             }
             else{
                 //show error
@@ -72,7 +88,5 @@ class EditFilmActivity : AppCompatActivity() {
 
         return Utility.isNullOrEmpty(nameTxt) || Utility.isNullOrEmpty(yearTxt)
     }
-
-
 }
 

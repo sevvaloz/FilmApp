@@ -9,6 +9,7 @@ import com.example.films.databinding.RecyclerviewRowBinding
 import com.example.films.db.Film
 import com.example.films.utils.RowClickListener
 import com.example.films.utils.dataBindingAdapter
+import com.example.films.viewmodel.FilmViewModel
 import java.io.Serializable
 
 
@@ -49,8 +50,6 @@ class FilmAdapter(
 
     }
 
-    override fun getItemCount(): Int {
-        return filmList.size
-    }
+    override fun getItemCount(): Int = filmList.size
 
 }

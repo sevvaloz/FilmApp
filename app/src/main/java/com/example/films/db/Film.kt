@@ -14,5 +14,5 @@ data class Film(
     var image: String,
 ): java.io.Serializable {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    var id: Int = 1
 }

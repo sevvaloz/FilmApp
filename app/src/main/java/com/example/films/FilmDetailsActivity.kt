@@ -17,6 +17,15 @@ class FilmDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilmDetailsBinding
     lateinit var currentFilm: Film
 
+    companion object{
+        @JvmStatic
+        fun start(context: Context, film: Film) = with(context){
+            Intent(this, FilmDetailsActivity::class.java).putExtra("FILM", film).let {
+                context.startActivity(it)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_film_details)

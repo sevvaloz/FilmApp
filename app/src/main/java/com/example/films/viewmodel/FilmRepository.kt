@@ -1,5 +1,6 @@
 package com.example.films.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.films.db.Film
 import com.example.films.db.FilmDao
@@ -13,6 +14,10 @@ class FilmRepository(private val filmDao: FilmDao) {
         return filmDao.searchFilm(searchQuery)
     }
 
+    val sortedFilmsDesc: LiveData<List<Film>> = filmDao.sortFilmsDesc()
+
+    val sortedFilmsAsc: LiveData<List<Film>> = filmDao.sortFilmsAsc()
+
     suspend fun insertFilm(film: Film){
         filmDao.insertFilm(film)
     }
@@ -22,6 +27,10 @@ class FilmRepository(private val filmDao: FilmDao) {
     }
 
     suspend fun updateFilm(film: Film) {
-        filmDao.updateFilm(film)
+        try {
+            filmDao.updateFilm(film)
+        } catch (e: java.lang.Exception) {
+            Log.d("movieError", e.message!!)
+        }
     }
 }

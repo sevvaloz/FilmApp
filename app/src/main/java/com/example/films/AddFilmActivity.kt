@@ -17,8 +17,6 @@ class AddFilmActivity : AppCompatActivity() {
     val viewmodel: FilmViewModel by viewModels()
     lateinit var binding: ActivityAddFilmBinding
 
-    lateinit var currentFilm: Film
-
     lateinit var nameTxt: String
     lateinit var yearTxt: String
     lateinit var directorTxt: String
@@ -42,7 +40,6 @@ class AddFilmActivity : AppCompatActivity() {
                 viewmodel.addFilm(newFilm)
 
                 val intent =  Intent(applicationContext, MainActivity::class.java)
-                //intent.putExtra("FILM", newFilm)
                 startActivity(intent)
             }
             else{
@@ -60,6 +57,5 @@ class AddFilmActivity : AppCompatActivity() {
 
         return isNullOrEmpty(nameTxt) || isNullOrEmpty(yearTxt)
     }
-
 }
 

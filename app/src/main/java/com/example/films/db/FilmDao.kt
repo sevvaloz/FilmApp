@@ -18,6 +18,12 @@ interface FilmDao {
     @Query("SELECT * FROM $filmTable WHERE name LIKE :searchQuery")
     fun searchFilm(searchQuery: String?): LiveData<List<Film>>
 
+    @Query("SELECT * FROM $filmTable ORDER BY year DESC")
+    fun sortFilmsDesc(): LiveData<List<Film>>
+
+    @Query("SELECT * FROM $filmTable ORDER BY year ASC")
+    fun sortFilmsAsc(): LiveData<List<Film>>
+
     @Update
     suspend fun updateFilm(film: Film)
 }

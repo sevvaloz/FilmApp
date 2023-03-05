@@ -12,27 +12,16 @@ class FilmViewModel(): ViewModel() {
 
    var allFilms : LiveData<List<Film>>? = null
    var repository : FilmRepository? = null
-
-    private var _name = MutableLiveData<String>()
-    val name: LiveData<String> get() = _name
-
-    private var _year = MutableLiveData<String>()
-    val year: LiveData<String> get() = _year
-
-    private var _director = MutableLiveData<String>()
-    val director: LiveData<String> get() = _director
-
-    private var _image = MutableLiveData<String>()
-    val image: LiveData<String> get() = _image
-
-    private var _subject = MutableLiveData<String>()
-    val subject: LiveData<String> get() = _subject
+    var sortedFilmsDesc: LiveData<List<Film>>? = null
+    var sortedFilmsAsc: LiveData<List<Film>>? = null
 
 
     fun init(application: Application) {
         val dao = FilmDatabase.getDatabaseInstance(application).getFilmDao()
         repository = FilmRepository(dao)
         allFilms = repository?.allFilms
+        sortedFilmsDesc = repository?.sortedFilmsDesc
+        sortedFilmsAsc = repository?.sortedFilmsAsc
     }
 
     fun addFilm(film: Film) = viewModelScope.launch(Dispatchers.IO){
@@ -50,26 +39,4 @@ class FilmViewModel(): ViewModel() {
      fun searchFilm(searchQuery: String): LiveData<List<Film>> {
         return repository?.searchFilm(searchQuery) as LiveData
     }
-
-
-    fun setName(name: String){
-        _name.value = name
-    }
-
-    fun setYear(year: String){
-        _year.value = year
-    }
-
-    fun setDirector(director: String){
-        _director.value = director
-    }
-
-    fun setImage(image: String){
-        _image.value = image
-    }
-
-    fun setSubject(subject: String){
-        _subject.value = subject
-    }
-
 }
